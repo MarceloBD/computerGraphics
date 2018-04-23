@@ -1,4 +1,8 @@
-main: main.cpp main.hpp
-	g++ -o main main.cpp -lglut -lGLU -lGL -lm
+main: main.o
+	g++ -o main main.o 
 
-	
+main.o: main.cpp View.o 
+	g++ -c main.cpp -lglut -lGLU -lGL -lm
+
+View.o: View.cpp
+	g++ -c View.cpp 

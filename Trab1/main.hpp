@@ -3,5 +3,6 @@
 
 #include <iostream>
 #include <GL/glut.h>
+#include "View.hpp"
 
 #endif

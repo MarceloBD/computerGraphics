@@ -16,26 +16,14 @@ View::View(int argc, char **argv) {
   glutCreateWindow(TITLE);                             // Cria a janela, sendo que o parâmetro será o título dela
   
   this->init();                                                  
-  /*	glutDisplayFunc(draw_test);
   
-  	glutMouseFunc(mouse_test);
- 	glutPassiveMotionFunc(mouse_test2);
-  	glutMotionFunc(mouse_test3);
-  
-  	glutKeyboardFunc(keybord_test);
-  	glutSpecialFunc(keybord_test2);
-  
-
-  	test_create_menu();
-  	*/
-  glutMainLoop();
 
 }
 
 void View::init() {
   glClearColor(1.0, 1.0, 1.0, 1.0);     
   glMatrixMode(GL_PROJECTION);
-  gluOrtho2D(0, WINDOW_WIDTH, 0, WINDOW_HEIGHT);
+  gluOrtho2D(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
   glClear(GL_COLOR_BUFFER_BIT);
   glFlush();
 }

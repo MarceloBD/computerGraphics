@@ -1,12 +1,23 @@
 //TODO: ifndef
+#ifndef _GL
+#define _GL
 #include <GL/glut.h>
+#include <iostream>
+#endif
+
+class Model
+{
+	public:
+		Model();
+		~Model();
+};
 
 class Point{
 	public:
-		GLfloat x;
-		GLfloat y;
-		Point(x,y);
-}
+		GLint x;
+		GLint y;
+		Point(GLint x, GLint y);
+};
 
 
 class Ellipse{
@@ -15,14 +26,14 @@ class Ellipse{
 		GLfloat x_radius;
 		GLfloat y_radius;
 		Ellipse(Point center, GLfloat x_radius, GLfloat y_radius);
-}
+};
 
 
 class Leg{
 	public:
-		Point articulation_position*;
+		Point *articulation_position;
 		Leg(Point articulation_position);
-}
+};
 
 class Spider{
 	public:
@@ -31,4 +42,4 @@ class Spider{
 		Leg legs[8];
 		Spider();
 		void Move(Point destination);
-}
+};

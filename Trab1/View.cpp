@@ -17,16 +17,17 @@ View::View(int argc, char **argv) {
   
   this->init();                                                  
   
-
 }
 
 void View::init() {
   glClearColor(1.0, 1.0, 1.0, 1.0);     
   glMatrixMode(GL_PROJECTION);
-  gluOrtho2D(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
   glClear(GL_COLOR_BUFFER_BIT);
+  glLoadIdentity();
+  glOrtho(0.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 0.0f, 0.0f, 1.0f);
   glFlush();
 }
+
 
 
 View::~View() {

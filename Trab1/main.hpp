@@ -2,7 +2,11 @@
 #define _main
 
 #include <iostream>
+#ifndef _View
+#define _View
 #include "View.hpp"
+#endif
+#include "Controller.hpp"
 
 #endif
 

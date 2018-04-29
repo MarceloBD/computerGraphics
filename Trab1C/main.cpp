@@ -120,31 +120,17 @@ void EmptyCallback(){
 
 
 int main(int argc, char **argv) {
-  Spider *spider = new Spider(Point(0,0));
+  Spider *spider = new Spider(Point(100,200));
 	view(argc, argv);
 	glutMouseFunc(mouseListener);
 	glutDisplayFunc(EmptyCallback);
   glMatrixMode(GL_MODELVIEW);
 
-/*
-  for(int i=0;i<360;i++){
-    glPushMatrix();
-    glTranslatef(-300.0, -300.0, 0.0);
-    glRotatef(i,0.0,0.0,1.0);
-    glTranslatef(300.0+i, 300.0, 0.0);
-    DrawSpider(spider);
-    glPopMatrix();
-    usleep(50 * 1000);
-  }
-  */
+  spider->Rotate(45.0);
+  //spider->Rotate(45.0);
+  //spider->Move();
 
 
-
-//  glPushMatrix();
-  //glRotatef(45.0,0.0,0.0,1.0);
-  //glTranslatef(300.0,0.0, 0.0);
-  spider->Draw();
-  //glPopMatrix();
 
 
 

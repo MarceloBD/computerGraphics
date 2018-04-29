@@ -114,8 +114,15 @@ class Spider{
 		Ellipse cephalotorax;
 		Ellipse abdomen;
 		Leg legs[8];
-		Spider(Point initialPos){
-			position = initialPos;
+		int moveSpeed;
+		int rotateSpeed;
+		float angle;
+		Spider(Point initialCoords){
+			angle = 0;
+			moveSpeed = 5;
+			rotateSpeed = 100;
+			position = initialCoords;
+			Point initialPos = Point(0,0);
 			cephalotorax = Ellipse(initialPos,20,30);
 			abdomen = Ellipse(Point(initialPos.x,initialPos.y+80),40,50);
 			for(int i = 0;i<4;i++){
@@ -133,12 +140,7 @@ class Spider{
 			legs[6] = Leg(Point(initialPos.x-15,initialPos.y),-1,3,20);
 			legs[7] = Leg(Point(initialPos.x-15,initialPos.y+10),-1,3,40);
 		}
-		void Move(Point destination);
-		void Rotate(int ang){
-
-		}
 		void Draw(){
-		  glClear(GL_COLOR_BUFFER_BIT);
 		  glColor3f(0.0,0.0,0.0);
 		  glPointSize(3.0);
 		  this->cephalotorax.Draw();
@@ -147,5 +149,28 @@ class Spider{
 		    this->legs[i].Draw();
 		  }
 		  glFlush();
+		}
+
+		void Move(){
+			glClear(GL_COLOR_BUFFER_BIT);
+			glPushMatrix();
+			glRotatef(this->angle,0.0,0.0,1.0);
+			glTranslatef(this->position.x*cos(this->angle*(PI/180))+this->position.y*sin(this->angle*(PI/180)),this->position.x*sin(this->angle*(PI/180))+this->position.y*cos(this->angle*(PI/180)), 0.0);
+			this->Draw();
+			glPopMatrix();
+		}
+
+//O *5 serve apenas para deixar o movimento mais suave (smooth) em angulos pequenos
+		void Rotate(float _angle){
+			for(int i=(this->angle)*5;i<(this->angle+_angle)*5;i++){
+				glClear(GL_COLOR_BUFFER_BIT);
+				glPushMatrix();
+				glRotatef(0.2*i,0.0,0.0,1.0);
+				glTranslatef(this->position.x*cos(0.2*i*(PI/180))+this->position.y*sin(0.2*i*(PI/180)),-this->position.x*sin(0.2*i*(PI/180))+this->position.y*cos(0.2*i*(PI/180)), 0.0);
+				this->Draw();
+				glPopMatrix();
+		    usleep(100 / (rotateSpeed) * 1000);
+		  }
+			angle += _angle;
 		}
 };

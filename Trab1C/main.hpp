@@ -20,12 +20,10 @@ class Ellipse{
 		Point center;
 		GLfloat xRadius;
 		GLfloat yRadius;
-		int ang;
-		Ellipse(Point _center, GLfloat _xRadius, GLfloat _yRadius,int _ang){
+		Ellipse(Point _center, GLfloat _xRadius, GLfloat _yRadius){
 			center = _center;
 			xRadius = _xRadius;
 			yRadius = _yRadius;
-			ang = _ang;
 		}
 		Ellipse(){
 
@@ -60,8 +58,8 @@ class Spider{
 		Leg legs[8];
 		Spider(Point initialPos){
 			position = initialPos;
-			cephalotorax = Ellipse(initialPos,20,30,0);
-			abdomen = Ellipse(Point(initialPos.x,initialPos.y+80),40,50,0);
+			cephalotorax = Ellipse(initialPos,20,30);
+			abdomen = Ellipse(Point(initialPos.x,initialPos.y+80),40,50);
 			for(int i = 0;i<4;i++){
 				legs[i] = Leg(Point(initialPos.x+15,initialPos.y-20+i*10),1,3,0);
 			}

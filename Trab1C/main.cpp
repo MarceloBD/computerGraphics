@@ -148,8 +148,8 @@ void DrawLeg(Leg leg){
 void DrawEllipse(Ellipse ellipse){
   float points = 3000.0;
   for(float i = 0.0;i<points;i++){
-    float ang_sin = sin((i/points)*(360)*(PI/180)-ellipse.ang*(PI/180));
-    float ang_cos = cos((i/points)*(360)*(PI/180)+ellipse.ang*(PI/180));
+    float ang_sin = sin((i/points)*(360)*(PI/180));
+    float ang_cos = cos((i/points)*(360)*(PI/180));
     float new_x = ellipse.center.x + ellipse.xRadius*ang_cos;
     float new_y = ellipse.center.y + ellipse.yRadius*ang_sin;
     glBegin(GL_POINTS);
@@ -178,23 +178,34 @@ void DrawSpider(Spider *spider){
 
 
 int main(int argc, char **argv) {
-  Spider *spider = new Spider(Point(300,300));
+  Spider *spider = new Spider(Point(0,0));
 	view(argc, argv);
 	glutMouseFunc(mouseListener);
 	glutDisplayFunc(EmptyCallback);
-/*
-  for(int i=0;i<180;i++){
+  glMatrixMode(GL_MODELVIEW);
+
+  for(int i=0;i<360;i++){
+    glPushMatrix();
+    //glTranslatef(-300.0, -300.0, 0.0);
+    glRotatef(i,0.0,0.0,1.0);
+    glTranslatef(300.0, 300.0, 0.0);
     DrawSpider(spider);
-    spider->abdomen.ang += 1;
-    std::cout<<spider->abdomen.ang;
+    glPopMatrix();
     usleep(50 * 1000);
   }
-  */
-//glPushMatrix();
-//glRotatef(0.2, 0.0, 1.0, 0.0);
-  DrawSpider(spider);
 
+
+
+
+  //glTranslatef(-300.0, -300.0, 0.0);
+  //glRotatef(45.0,0.0,0.0,1.0);
+  //DrawSpider(spider);
   //glPopMatrix();
+
+
+
+
+
 	glutMainLoop();
 	return 1;
 }

@@ -3,11 +3,15 @@
 #include <vector>
 
 class Point{
-	public:
-		GLint x;
-		GLint y;
-		Point(GLint x, GLint y);
-		Point();
+  public:
+    GLfloat x,y;
+    Point(GLint _x, GLint _y){
+      x = _x;
+      y = _y;
+    }
+    Point(){
+
+    }
 };
 
 
@@ -16,8 +20,14 @@ class Ellipse{
 		Point center;
 		GLfloat xRadius;
 		GLfloat yRadius;
-		Ellipse(Point center, GLfloat xRadius, GLfloat yRadius);
-		Ellipse();
+		Ellipse(Point _center, GLfloat _xRadius, GLfloat _yRadius){
+			center = _center;
+			xRadius = _xRadius;
+			yRadius = _yRadius;
+		}
+		Ellipse(){
+
+		}
 };
 
 
@@ -30,9 +40,12 @@ class Leg{
 
 class Spider{
 	public:
+		Point position;
 		Ellipse cephalotorax;
 		Ellipse abdomen;
 		std::vector<Leg> legs;
-		Spider(Point initialPos);
+		Spider(Point initialPos){
+			position = initialPos;
+		}
 		void Move(Point destination);
 };

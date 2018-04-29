@@ -22,7 +22,7 @@ Leg::Leg (std::vector<Point> articulationPosition){
 
 Spider::Spider(Point initialPos){
 	//creatubg the spider from initial_pos
-	Ellipse *cephalotorax = new Ellipse(initialPos, 10.0f, 12.5f); 
+	Ellipse *cephalotorax = new Ellipse(initialPos, 10.0f, 12.5f);
 	this->cephalotorax = *cephalotorax;
 	Point* p = new Point(initialPos.x, initialPos.y + 30.0f);
 	Ellipse *abdomen = new Ellipse(*p, 15.0f, 20.0f);
@@ -71,7 +71,7 @@ void mouseListener(GLint button, GLint action, GLint x, GLint y) {
 }
 
 void init() {
-  glClearColor(1.0, 1.0, 1.0, 1.0);     
+  glClearColor(1.0, 1.0, 1.0, 1.0);
   glMatrixMode(GL_PROJECTION);
   glClear(GL_COLOR_BUFFER_BIT);
   glLoadIdentity();
@@ -81,30 +81,35 @@ void init() {
 
 void view(int argc, char **argv) {
 
-	glutInit(&argc, argv);  
-	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);   
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 
   screen_width  = glutGet(GLUT_SCREEN_WIDTH),
-  screen_height = glutGet(GLUT_SCREEN_HEIGHT);  
-  
+  screen_height = glutGet(GLUT_SCREEN_HEIGHT);
+
   positionx = (screen_width-WINDOW_WIDTH)/2;
   positiony = (screen_height-WINDOW_HEIGHT)/2;
 
   glutInitWindowPosition(positionx, positiony);  //Utilizada para definir a posição inicial da janela, sendo que os parâmetros representam a posição do canto superior esquerdo
  	glutInitWindowSize(WINDOW_WIDTH, WINDOW_WIDTH);                                                 // Define a largura e altura da janela
   glutCreateWindow(TITLE);                             // Cria a janela, sendo que o parâmetro será o título dela
-  
-  init();                                                  
-  
+
+  init();
+
+}
+
+void DrawObjects(){
+
 }
 
 
 
 
 int main(int argc, char **argv) {
+  Spider *spider = new Spider(Point(300,300));
 	view(argc, argv);
 	glutMouseFunc(mouseListener);
-	
+	glutDisplayFunc(DrawObjects);
 	glutMainLoop();
-	return 1; 
+	return 1;
 }

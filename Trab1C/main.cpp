@@ -104,75 +104,17 @@ void view(int argc, char **argv) {
 
 }
 
-void DrawLine(Point start,Point end){
-  float m = (start.y-end.y)/(start.x-end.x);
-  if(m>1||m<-1){
-    m = (start.x-end.x)/(start.y-end.y);
-    for(float i = start.y;i<end.y;i++){
-      glBegin(GL_POINTS);
-        glVertex2f((i-start.y)*m+start.x,i);
-      glEnd();
-    }
-    for(float i = start.y;i>end.y;i--){
-      glBegin(GL_POINTS);
-        glVertex2f((i-start.y)*m+start.x,i);
-      glEnd();
-    }
-  }else{
-    for(float i = start.x;i<end.x;i++){
-      glBegin(GL_POINTS);
-        glVertex2f(i,(i-start.x)*m+start.y);
-      glEnd();
-    }
-    for(float i = start.x;i>end.x;i--){
-      glBegin(GL_POINTS);
-        glVertex2f(i,(i-start.x)*m+start.y);
-      glEnd();
-    }
-  }
-}
 
-void DrawLeg(Leg leg){
-  float points = 3000.0;
-  float art_size = 50;
-  float ang = leg.ang;
-  Point reference = leg.initialPos;
-  for(int i=0;i<leg.arts;i++){
-    DrawLine(reference,Point(reference.x+art_size*cos(ang*(PI/180))*leg.side,reference.y+art_size*sin(ang*(PI/180))));
-    reference = Point(reference.x+art_size*cos(ang*(PI/180))*leg.side,reference.y+art_size*sin(ang*(PI/180)));
-    art_size /= 2;
-    ang += 30;
-  }
-}
 
-void DrawEllipse(Ellipse ellipse){
-  float points = 3000.0;
-  for(float i = 0.0;i<points;i++){
-    float ang_sin = sin((i/points)*(360)*(PI/180));
-    float ang_cos = cos((i/points)*(360)*(PI/180));
-    float new_x = ellipse.center.x + ellipse.xRadius*ang_cos;
-    float new_y = ellipse.center.y + ellipse.yRadius*ang_sin;
-    glBegin(GL_POINTS);
-      glVertex2f(new_x,new_y);
-    glEnd();
-  }
-}
+
+
+
 
 void EmptyCallback(){
 
 }
 
-void DrawSpider(Spider *spider){
-  glClear(GL_COLOR_BUFFER_BIT);
-  glColor3f(0.0,0.0,0.0);
-  glPointSize(3.0);
-  DrawEllipse(spider->cephalotorax);
-  DrawEllipse(spider->abdomen);
-  for(int i=0;i<8;i++){
-    DrawLeg(spider->legs[i]);
-  }
-  glFlush();
-}
+
 
 
 
@@ -184,22 +126,24 @@ int main(int argc, char **argv) {
 	glutDisplayFunc(EmptyCallback);
   glMatrixMode(GL_MODELVIEW);
 
+/*
   for(int i=0;i<360;i++){
     glPushMatrix();
-    //glTranslatef(-300.0, -300.0, 0.0);
+    glTranslatef(-300.0, -300.0, 0.0);
     glRotatef(i,0.0,0.0,1.0);
-    glTranslatef(300.0, 300.0, 0.0);
+    glTranslatef(300.0+i, 300.0, 0.0);
     DrawSpider(spider);
     glPopMatrix();
     usleep(50 * 1000);
   }
+  */
 
 
 
-
-  //glTranslatef(-300.0, -300.0, 0.0);
+//  glPushMatrix();
   //glRotatef(45.0,0.0,0.0,1.0);
-  //DrawSpider(spider);
+  //glTranslatef(300.0,0.0, 0.0);
+  spider->Draw();
   //glPopMatrix();
 
 

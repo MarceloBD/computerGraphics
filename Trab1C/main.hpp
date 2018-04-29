@@ -1,6 +1,13 @@
 #include <GL/glut.h>
 #include <iostream>
 #include <vector>
+#include <math.h>
+#include <iostream>
+#include <GL/glut.h>
+#include<unistd.h>
+#define PI 3.14159265
+
+
 
 class Point{
   public:
@@ -28,6 +35,18 @@ class Ellipse{
 		Ellipse(){
 
 		}
+		void Draw(){
+		  float points = 3000.0;
+		  for(float i = 0.0;i<points;i++){
+		    float ang_sin = sin((i/points)*(360)*(PI/180));
+		    float ang_cos = cos((i/points)*(360)*(PI/180));
+		    float new_x = this->center.x + this->xRadius*ang_cos;
+		    float new_y = this->center.y + this->yRadius*ang_sin;
+		    glBegin(GL_POINTS);
+		      glVertex2f(new_x,new_y);
+		    glEnd();
+		  }
+		}
 };
 
 
@@ -47,6 +66,45 @@ class Leg{
 		}
 		Leg(){
 
+		}
+		void DrawLine(Point start,Point end){
+		  float m = (start.y-end.y)/(start.x-end.x);
+		  if(m>1||m<-1){
+		    m = (start.x-end.x)/(start.y-end.y);
+		    for(float i = start.y;i<end.y;i++){
+		      glBegin(GL_POINTS);
+		        glVertex2f((i-start.y)*m+start.x,i);
+		      glEnd();
+		    }
+		    for(float i = start.y;i>end.y;i--){
+		      glBegin(GL_POINTS);
+		        glVertex2f((i-start.y)*m+start.x,i);
+		      glEnd();
+		    }
+		  }else{
+		    for(float i = start.x;i<end.x;i++){
+		      glBegin(GL_POINTS);
+		        glVertex2f(i,(i-start.x)*m+start.y);
+		      glEnd();
+		    }
+		    for(float i = start.x;i>end.x;i--){
+		      glBegin(GL_POINTS);
+		        glVertex2f(i,(i-start.x)*m+start.y);
+		      glEnd();
+		    }
+		  }
+		}
+		void Draw(){
+		  float points = 3000.0;
+		  float art_size = 50;
+		  float ang = this->ang;
+		  Point reference = this->initialPos;
+		  for(int i=0;i<this->arts;i++){
+		    DrawLine(reference,Point(reference.x+art_size*cos(ang*(PI/180))*this->side,reference.y+art_size*sin(ang*(PI/180))));
+		    reference = Point(reference.x+art_size*cos(ang*(PI/180))*this->side,reference.y+art_size*sin(ang*(PI/180)));
+		    art_size /= 2;
+		    ang += 30;
+		  }
 		}
 };
 
@@ -78,5 +136,16 @@ class Spider{
 		void Move(Point destination);
 		void Rotate(int ang){
 
+		}
+		void Draw(){
+		  glClear(GL_COLOR_BUFFER_BIT);
+		  glColor3f(0.0,0.0,0.0);
+		  glPointSize(3.0);
+		  this->cephalotorax.Draw();
+		  this->abdomen.Draw();
+		  for(int i=0;i<8;i++){
+		    this->legs[i].Draw();
+		  }
+		  glFlush();
 		}
 };

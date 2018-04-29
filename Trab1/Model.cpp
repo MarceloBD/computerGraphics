@@ -1,35 +1,46 @@
 #include "Model.hpp"
 #define PI 3.14159265359
 
-Model::Model() {
-
+Model::Model(View *view) {
+	this->view = view;
 
 }
 
-Point :: Point (GLint x, GLint y){
+void Model::initSpider() {
+// Set a new spider 
+}
+
+void Model::drawSpider() {
+// Call view.drawSpider()
+}
+
+void Model::moveSpider(GLint x, GLint y) {
+}
+
+Point::Point (GLint x, GLint y){
 	this->x = x;
 	this->y = y;
 }
 
-Ellipse :: Ellipse (Point center, GLfloat x_radius, GLfloat y_radius){
+Ellipse::Ellipse (Point center, GLfloat xRadius, GLfloat yRadius){
 	this->center = center;
-	this->x_radius = x_radius;
-	this->y_radius = y_radius;
+	this->xRadius = xRadius;
+	this->yRadius = yRadius;
 }
 
-Leg :: Leg (std::vector<Point> articulation_position){
-	this->articulation_position = articulation_position;
+Leg::Leg (std::vector<Point> articulationPosition){
+	this->articulationPosition = articulationPosition;
 }
 
-Spider :: Spider(Point initial_pos){
+Spider::Spider(Point initialPos){
 	//creatubg the spider from initial_pos
-	Ellipse *cephalotorax = new Ellipse(initial_pos, 10.0f, 12.5f); 
+	Ellipse *cephalotorax = new Ellipse(initialPos, 10.0f, 12.5f); 
 	this->cephalotorax = *cephalotorax;
-	Point* p = new Point(initial_pos.x, initial_pos.y + 30.0f);
+	Point* p = new Point(initialPos.x, initialPos.y + 30.0f);
 	Ellipse *abdomen = new Ellipse(*p, 15.0f, 20.0f);
 	this->abdomen = *abdomen;
-	GLfloat rx = this->cephalotorax.x_radius;
-	GLfloat ry = this->cephalotorax.y_radius;
+	GLfloat rx = this->cephalotorax.xRadius;
+	GLfloat ry = this->cephalotorax.yRadius;
 	GLfloat x = (GLfloat)this->cephalotorax.center.x;
 	GLfloat y = (GLfloat)this->cephalotorax.center.y;
 	//calculating the legs positions

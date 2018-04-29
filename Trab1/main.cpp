@@ -3,10 +3,10 @@
 
 int main(int argc, char **argv) {
 
-	Model *model = new Model();
 	View *view = new View(argc, argv);
+	Model *model = new Model(view);
 	Controller *controller = new Controller(view, model);
-
+	controller->init();
 
 	glutMainLoop();
 

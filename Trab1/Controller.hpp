@@ -19,8 +19,10 @@ class Controller
 		Controller(View *view, Model *model);
 		static void mouseListener(GLint button, GLint action, GLint x, GLint y);
 		~Controller();
+		void init();
 	private:
 		View *view;
+		Model *model;
 
 
 };

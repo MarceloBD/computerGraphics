@@ -4,16 +4,27 @@
 #define _GL
 #include <GL/glut.h>
 #include <iostream>
-
 #endif
+
+#ifndef _View
+#define _View
+#include "View.hpp"
+#endif
+
 
 #include <vector>
 
 class Model
 {
 	public:
-		Model();
+		Model(View *view);
 		~Model();
+		void drawSpider();
+		void initSpider();
+		void moveSpider(GLint x, GLint y);
+	private:
+		View *view;
+
 };
 
 class Point{
@@ -21,25 +32,25 @@ class Point{
 		GLint x;
 		GLint y;
 		Point(GLint x, GLint y);
-		Point(){};
+		Point();
 };
 
 
 class Ellipse{
 	public:
 		Point center;
-		GLfloat x_radius;
-		GLfloat y_radius;
-		Ellipse(Point center, GLfloat x_radius, GLfloat y_radius);
-		Ellipse(){};
+		GLfloat xRadius;
+		GLfloat yRadius;
+		Ellipse(Point center, GLfloat xRadius, GLfloat yRadius);
+		Ellipse();
 };
 
 
 class Leg{
 	public:
-		std::vector<Point> articulation_position;
-		Leg(std::vector<Point> articulation_position);
-		Leg(){};
+		std::vector<Point> articulationPosition;
+		Leg(std::vector<Point> articulationPosition);
+		Leg();
 };
 
 class Spider{
@@ -47,6 +58,6 @@ class Spider{
 		Ellipse cephalotorax;
 		Ellipse abdomen;
 		std::vector<Leg> legs;
-		Spider(Point initial_pos);
+		Spider(Point initialPos);
 		void Move(Point destination);
 };

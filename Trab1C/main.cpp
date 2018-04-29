@@ -11,6 +11,8 @@ const GLint WINDOW_HEIGHT = 600;
 const GLchar TITLE[30] = "This is a black spider";
 GLint screen_width, screen_height;
 GLint positionx, positiony;
+
+Spider *spider;
 /*Point::Point (GLint x, GLint y){
 	this->x = x;
 	this->y = y;
@@ -50,10 +52,25 @@ void mouseListener(GLint button, GLint action, GLint x, GLint y) {
   switch (button) {
     case GLUT_LEFT_BUTTON: {
      	std::cout<<"Esquerda";
-      //	Model *test = static_cast<Model*>(model);
-      //	test->moveSpider(x, y);
-  //    	init();
+      Point dest = Point(x,y);
+      float ang = 0;
+      if(dest.x>=spider->position.x&&dest.y<=spider->position.y){
+        ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+      }
+      if(dest.x<spider->position.x&&dest.y<=spider->position.y){
+        ang = 90+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+      }
+      if(dest.x<spider->position.x&&dest.y>spider->position.y){
+        ang = -270+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+      }
+      if(dest.x>=spider->position.x&&dest.y>spider->position.y){
+        ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+      }
 
+      if(isfinite(ang)){
+        spider->Rotate(-ang+90-spider->angle);
+        spider->Move(Point(x,y));
+      }
 
       break;
     }
@@ -73,6 +90,7 @@ void mouseListener(GLint button, GLint action, GLint x, GLint y) {
     	std::cout<<"libera";
 
     }
+    spider->Rotate(0.1);
     std::cout<<" em (x:"<<x<<", y:"<<y<<")\n";
 }
 
@@ -97,7 +115,7 @@ void view(int argc, char **argv) {
   positiony = (screen_height-WINDOW_HEIGHT)/2;
 
   glutInitWindowPosition(positionx, positiony);  //Utilizada para definir a posição inicial da janela, sendo que os parâmetros representam a posição do canto superior esquerdo
- 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_WIDTH);                                                 // Define a largura e altura da janela
+ 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);                                                 // Define a largura e altura da janela
   glutCreateWindow(TITLE);                             // Cria a janela, sendo que o parâmetro será o título dela
 
   init();
@@ -120,22 +138,15 @@ void EmptyCallback(){
 
 
 int main(int argc, char **argv) {
-  Spider *spider = new Spider(Point(100,200));
+  spider = new Spider(Point(400,300));
 	view(argc, argv);
 	glutMouseFunc(mouseListener);
 	glutDisplayFunc(EmptyCallback);
   glMatrixMode(GL_MODELVIEW);
-
-  spider->Rotate(45.0);
-  //spider->Rotate(45.0);
-  //spider->Move();
-
-
-
-
-
-
-
+  spider->Rotate(45);
+  spider->Move(Point(100,200));
+  spider->Rotate(45);
+  spider->Move(Point(100,400));
 	glutMainLoop();
 	return 1;
 }

@@ -1,4 +1,10 @@
 #include "main.hpp"
+#include <cstdlib>
+#include <math.h>
+#include <iostream>
+#include <GL/glut.h>
+#include<unistd.h>
+#define PI 3.14159265
 
 const GLint WINDOW_WIDTH = 800;
 const GLint WINDOW_HEIGHT = 600;
@@ -98,8 +104,74 @@ void view(int argc, char **argv) {
 
 }
 
-void DrawObjects(){
+void DrawLine(Point start,Point end){
+  float m = (start.y-end.y)/(start.x-end.x);
+  if(m>1||m<-1){
+    m = (start.x-end.x)/(start.y-end.y);
+    for(float i = start.y;i<end.y;i++){
+      glBegin(GL_POINTS);
+        glVertex2f((i-start.y)*m+start.x,i);
+      glEnd();
+    }
+    for(float i = start.y;i>end.y;i--){
+      glBegin(GL_POINTS);
+        glVertex2f((i-start.y)*m+start.x,i);
+      glEnd();
+    }
+  }else{
+    for(float i = start.x;i<end.x;i++){
+      glBegin(GL_POINTS);
+        glVertex2f(i,(i-start.x)*m+start.y);
+      glEnd();
+    }
+    for(float i = start.x;i>end.x;i--){
+      glBegin(GL_POINTS);
+        glVertex2f(i,(i-start.x)*m+start.y);
+      glEnd();
+    }
+  }
+}
 
+void DrawLeg(Leg leg){
+  float points = 3000.0;
+  float art_size = 50;
+  float ang = leg.ang;
+  Point reference = leg.initialPos;
+  for(int i=0;i<leg.arts;i++){
+    DrawLine(reference,Point(reference.x+art_size*cos(ang*(PI/180))*leg.side,reference.y+art_size*sin(ang*(PI/180))));
+    reference = Point(reference.x+art_size*cos(ang*(PI/180))*leg.side,reference.y+art_size*sin(ang*(PI/180)));
+    art_size /= 2;
+    ang += 30;
+  }
+}
+
+void DrawEllipse(Ellipse ellipse){
+  float points = 3000.0;
+  for(float i = 0.0;i<points;i++){
+    float ang_sin = sin((i/points)*(360)*(PI/180)-ellipse.ang*(PI/180));
+    float ang_cos = cos((i/points)*(360)*(PI/180)+ellipse.ang*(PI/180));
+    float new_x = ellipse.center.x + ellipse.xRadius*ang_cos;
+    float new_y = ellipse.center.y + ellipse.yRadius*ang_sin;
+    glBegin(GL_POINTS);
+      glVertex2f(new_x,new_y);
+    glEnd();
+  }
+}
+
+void EmptyCallback(){
+
+}
+
+void DrawSpider(Spider *spider){
+  glClear(GL_COLOR_BUFFER_BIT);
+  glColor3f(0.0,0.0,0.0);
+  glPointSize(3.0);
+  DrawEllipse(spider->cephalotorax);
+  DrawEllipse(spider->abdomen);
+  for(int i=0;i<8;i++){
+    DrawLeg(spider->legs[i]);
+  }
+  glFlush();
 }
 
 
@@ -109,7 +181,20 @@ int main(int argc, char **argv) {
   Spider *spider = new Spider(Point(300,300));
 	view(argc, argv);
 	glutMouseFunc(mouseListener);
-	glutDisplayFunc(DrawObjects);
+	glutDisplayFunc(EmptyCallback);
+/*
+  for(int i=0;i<180;i++){
+    DrawSpider(spider);
+    spider->abdomen.ang += 1;
+    std::cout<<spider->abdomen.ang;
+    usleep(50 * 1000);
+  }
+  */
+//glPushMatrix();
+//glRotatef(0.2, 0.0, 1.0, 0.0);
+  DrawSpider(spider);
+
+  //glPopMatrix();
 	glutMainLoop();
 	return 1;
 }

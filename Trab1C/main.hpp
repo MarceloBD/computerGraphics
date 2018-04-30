@@ -14,7 +14,7 @@ GLint positionx, positiony;
 
 void mouseListener(GLint button, GLint action, GLint x, GLint y);
 void init();
-void view(int argc, char **argv);
+void view(GLint argc, char **argv);
 void emptyCallback();
 
 class Point{
@@ -36,14 +36,14 @@ class Ellipse{
 
 class Leg{
 	private:
-		int start_ang;
+		GLint start_ang;
 	public:
 		Point initialPos;
-		int ang;
-		int side;
-		int arts;
-		int direction;// direction = 1 for up, -1 for down
-		Leg(Point _initialPos,int _side,int _arts, int _ang, int _direction);
+		GLint ang;
+		GLint side;
+		GLint arts;
+		GLint direction;// direction = 1 for up, -1 for down
+		Leg(Point _initialPos,GLint _side,GLint _arts, GLint _ang, GLint _direction);
 		Leg(){}
 		void DrawLine(Point start,Point end);
 		void Draw();
@@ -56,12 +56,12 @@ class Spider{
 		Ellipse cephalotorax;
 		Ellipse abdomen;
 		Leg legs[8];
-		int moveSpeed;
-		int rotateSpeed;
-		float angle;
+		GLint moveSpeed = 50;
+		GLint rotateSpeed = 100;
+		GLfloat angle = 0;
 		Spider(Point initialCoords);
 		void Draw();
 		void Move(Point dest);
 //O *5 serve apenas para deixar o movimento mais suave (smooth) em angulos pequenos
-		void Rotate(float _angle);
+		void Rotate(GLfloat _angle);
 };

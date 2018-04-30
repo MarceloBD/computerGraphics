@@ -4,9 +4,13 @@
 #include <math.h>
 #include <iostream>
 #include <GL/glut.h>
-#include<unistd.h>
-#define PI 3.14159265
+#include <unistd.h>
 
+const GLint WINDOW_WIDTH = 800;
+const GLint WINDOW_HEIGHT = 600;
+const GLchar TITLE[30] = "This is a black spider";
+GLint screen_width, screen_height;
+GLint positionx, positiony;
 
 
 class Point{
@@ -38,8 +42,8 @@ class Ellipse{
 		void Draw(){
 		  float points = 3000.0;
 		  for(float i = 0.0;i<points;i++){
-		    float ang_sin = sin((i/points)*(360)*(PI/180));
-		    float ang_cos = cos((i/points)*(360)*(PI/180));
+		    float ang_sin = sin((i/points)*(360)*(M_PI/180));
+		    float ang_cos = cos((i/points)*(360)*(M_PI/180));
 		    float new_x = this->center.x + this->xRadius*ang_cos;
 		    float new_y = this->center.y + this->yRadius*ang_sin;
 		    glBegin(GL_POINTS);
@@ -105,8 +109,8 @@ class Leg{
 		  float ang = this->ang;
 		  Point reference = this->initialPos;
 		  for(int i=0;i<this->arts;i++){
-		    DrawLine(reference,Point(reference.x+art_size*cos(ang*(PI/180))*this->side,reference.y+art_size*sin(ang*(PI/180))));
-		    reference = Point(reference.x+art_size*cos(ang*(PI/180))*this->side,reference.y+art_size*sin(ang*(PI/180)));
+		    DrawLine(reference,Point(reference.x+art_size*cos(ang*(M_PI/180))*this->side,reference.y+art_size*sin(ang*(M_PI/180))));
+		    reference = Point(reference.x+art_size*cos(ang*(M_PI/180))*this->side,reference.y+art_size*sin(ang*(M_PI/180)));
 		    art_size /= 2;
 		    ang += 30;
 		  }
@@ -188,8 +192,8 @@ class Spider{
 					glClear(GL_COLOR_BUFFER_BIT);
 					glPushMatrix();
 					glRotatef(this->angle,0.0,0.0,1.0);
-					glTranslatef(this->position.x*cos(this->angle*(PI/180))+this->position.y*sin(this->angle*(PI/180)),
-								-this->position.x*sin(this->angle*(PI/180))+this->position.y*cos(this->angle*(PI/180)),
+					glTranslatef(this->position.x*cos(this->angle*(M_PI/180))+this->position.y*sin(this->angle*(M_PI/180)),
+								-this->position.x*sin(this->angle*(M_PI/180))+this->position.y*cos(this->angle*(M_PI/180)),
 								 0.0);
 					for(int j = 0; j < 8; j++){
 						this->legs[j].Move();
@@ -210,8 +214,8 @@ class Spider{
 					glClear(GL_COLOR_BUFFER_BIT);
 					glPushMatrix();
 					glRotatef(this->angle,0.0,0.0,1.0);
-					glTranslatef(this->position.x*cos(this->angle*(PI/180))+this->position.y*sin(this->angle*(PI/180)),
-								-this->position.x*sin(this->angle*(PI/180))+this->position.y*cos(this->angle*(PI/180)),
+					glTranslatef(this->position.x*cos(this->angle*(M_PI/180))+this->position.y*sin(this->angle*(M_PI/180)),
+								-this->position.x*sin(this->angle*(M_PI/180))+this->position.y*cos(this->angle*(M_PI/180)),
 								 0.0);
 					for(int j = 0; j < 8; j++){
 						this->legs[j].Move();
@@ -231,7 +235,7 @@ class Spider{
 					glClear(GL_COLOR_BUFFER_BIT);
 					glPushMatrix();
 					glRotatef(0.2*i,0.0,0.0,1.0);
-					glTranslatef(this->position.x*cos(0.2*i*(PI/180))+this->position.y*sin(0.2*i*(PI/180)),-this->position.x*sin(0.2*i*(PI/180))+this->position.y*cos(0.2*i*(PI/180)), 0.0);
+					glTranslatef(this->position.x*cos(0.2*i*(M_PI/180))+this->position.y*sin(0.2*i*(M_PI/180)),-this->position.x*sin(0.2*i*(M_PI/180))+this->position.y*cos(0.2*i*(M_PI/180)), 0.0);
 					this->Draw();
 					glPopMatrix();
 			    usleep(100 / (rotateSpeed) * 1000);
@@ -241,7 +245,7 @@ class Spider{
 					glClear(GL_COLOR_BUFFER_BIT);
 					glPushMatrix();
 					glRotatef(0.2*i,0.0,0.0,1.0);
-					glTranslatef(this->position.x*cos(0.2*i*(PI/180))+this->position.y*sin(0.2*i*(PI/180)),-this->position.x*sin(0.2*i*(PI/180))+this->position.y*cos(0.2*i*(PI/180)), 0.0);
+					glTranslatef(this->position.x*cos(0.2*i*(M_PI/180))+this->position.y*sin(0.2*i*(M_PI/180)),-this->position.x*sin(0.2*i*(M_PI/180))+this->position.y*cos(0.2*i*(M_PI/180)), 0.0);
 					this->Draw();
 					glPopMatrix();
 			    usleep(100 / (rotateSpeed) * 1000);

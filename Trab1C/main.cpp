@@ -1,52 +1,6 @@
 #include "main.hpp"
-#include <cstdlib>
-#include <math.h>
-#include <iostream>
-#include <GL/glut.h>
-#include<unistd.h>
-#define PI 3.14159265
-
-const GLint WINDOW_WIDTH = 800;
-const GLint WINDOW_HEIGHT = 600;
-const GLchar TITLE[30] = "This is a black spider";
-GLint screen_width, screen_height;
-GLint positionx, positiony;
 
 Spider *spider;
-/*Point::Point (GLint x, GLint y){
-	this->x = x;
-	this->y = y;
-}
-
-Ellipse::Ellipse (Point center, GLfloat xRadius, GLfloat yRadius){
-	this->center = center;
-	this->xRadius = xRadius;
-	this->yRadius = yRadius;
-}
-
-Leg::Leg (std::vector<Point> articulationPosition){
-	this->articulationPosition = articulationPosition;
-}
-
-Spider::Spider(Point initialPos){
-	//creatubg the spider from initial_pos
-	Ellipse *cephalotorax = new Ellipse(initialPos, 10.0f, 12.5f);
-	this->cephalotorax = *cephalotorax;
-	Point* p = new Point(initialPos.x, initialPos.y + 30.0f);
-	Ellipse *abdomen = new Ellipse(*p, 15.0f, 20.0f);
-	this->abdomen = *abdomen;
-	GLfloat rx = this->cephalotorax.xRadius;
-	GLfloat ry = this->cephalotorax.yRadius;
-	GLfloat x = (GLfloat)this->cephalotorax.center.x;
-	GLfloat y = (GLfloat)this->cephalotorax.center.y;
-	//calculating the legs positions
-	/*for (int i = 0; i < 8; i ++){
-		std::vector<Point*> positions(4);
-		positions[0] = new Point(x + rx*cos(2*PI*i/8), y + ry*cos(2*PI*i/8));
-		positions[1] = new Point(x + rx*cos(PI/6));
-		positions[2] = new Point(x + rx*cos(PI/4));
-	}TODO: finish legs positions */
-//}
 
 void mouseListener(GLint button, GLint action, GLint x, GLint y) {
   switch (button) {
@@ -55,16 +9,16 @@ void mouseListener(GLint button, GLint action, GLint x, GLint y) {
       Point dest = Point(x,y);
       float ang = 0;
       if(dest.x>=spider->position.x&&dest.y<=spider->position.y){
-        ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+        ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/M_PI);
       }
       else if(dest.x<spider->position.x&&dest.y<=spider->position.y){
-        ang = 90+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+        ang = 90+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/M_PI);
       }
       else if(dest.x<spider->position.x&&dest.y>spider->position.y){
-        ang = -270+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+        ang = -270+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/M_PI);
       }
       else if(dest.x>=spider->position.x&&dest.y>spider->position.y){
-        ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
+        ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/M_PI);
       }
 
       if(isfinite(ang)){

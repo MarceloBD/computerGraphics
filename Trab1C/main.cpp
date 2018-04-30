@@ -202,7 +202,8 @@ void Spider::Move(Point dest){
   if(!pow(position.x - dest.x, 2) && !pow(position.y-dest.y,2)){
     return;
   }
-  Point oldPosition = Point(position.x,position.y);
+  Point oldPosition = Point(position.x, position.y);
+  
   if(pow(position.x - dest.x, 2) > pow(position.y - dest.y, 2)){
     for(GLint i = 0; i < abs(oldPosition.x - dest.x); i++){
       if(dest.x - oldPosition.x > 0){
@@ -212,17 +213,10 @@ void Spider::Move(Point dest){
         this->position.x += -1;
         this->position.y += (dest.y - oldPosition.y)/abs(dest.x - oldPosition.x);
       }
-      glClear(GL_COLOR_BUFFER_BIT);
-      glPushMatrix();
-      glRotatef(this->angle, 0.0, 0.0, 1.0);
-      glTranslatef(this->position.x*cos(this->angle*(M_PI/180)) + this->position.y*sin(this->angle*(M_PI/180)),
-            - this->position.x*sin(this->angle*(M_PI/180)) + this->position.y*cos(this->angle*(M_PI/180)),
-             0.0);
+      this->RotateTranslate(this->angle);
       for(GLint j = 0; j < 8; j++){
         this->legs[j].Move();
       }
-      this->Draw();
-      glPopMatrix();
       usleep(100 /(moveSpeed) * 1000);
     }
   }else{
@@ -234,17 +228,10 @@ void Spider::Move(Point dest){
         this->position.y += -1;
         this->position.x += (dest.x - oldPosition.x)/abs(dest.y - oldPosition.y);
       }
-      glClear(GL_COLOR_BUFFER_BIT);
-      glPushMatrix();
-      glRotatef(this->angle, 0.0, 0.0, 1.0);
-      glTranslatef(this->position.x*cos(this->angle*(M_PI/180)) + this->position.y*sin(this->angle*(M_PI/180)),
-            - this->position.x*sin(this->angle*(M_PI/180)) + this->position.y*cos(this->angle*(M_PI/180)),
-             0.0);
+      this->RotateTranslate(this->angle);
       for(GLint j = 0; j < 8; j++){
         this->legs[j].Move();
       }
-      this->Draw();
-      glPopMatrix();
       usleep(100 /(moveSpeed) * 1000);
     }
   }
@@ -265,13 +252,18 @@ void Spider::Rotate(GLfloat _angle){
 }
 
 void Spider::RotateStep(GLint i) {
+  GLfloat angle = i*0.2;
+  this->RotateTranslate(angle);
+  usleep(100 / (rotateSpeed) * 1000);
+}
+
+void Spider::RotateTranslate(GLfloat angle){
+  GLfloat rad = angle*(M_PI/180);
   glClear(GL_COLOR_BUFFER_BIT);
   glPushMatrix();
-    glRotatef(0.2*i, 0.0, 0.0, 1.0);
-    glTranslatef(this->position.x*cos(0.2*i*(M_PI/180))
-      + this->position.y*sin(0.2*i*(M_PI/180)), - this->position.x*sin(0.2*i*(M_PI/180))
-      + this->position.y*cos(0.2*i*(M_PI/180)), 0.0);
+    glRotatef(angle, 0.0, 0.0, 1.0);
+    glTranslatef(this->position.x*cos(rad) + this->position.y*sin(rad), 
+      - this->position.x*sin(rad) + this->position.y*cos(rad), 0.0);
     this->Draw();
   glPopMatrix();
-  usleep(100 / (rotateSpeed) * 1000);
 }

@@ -67,4 +67,5 @@ class Spider{
 //O *5 serve apenas para deixar o movimento mais suave (smooth) em angulos pequenos
 		void Rotate(GLfloat _angle);
 		void RotateStep(GLint i);
+		void RotateTranslate(GLfloat angle);
 };

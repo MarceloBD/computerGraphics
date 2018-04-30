@@ -51,17 +51,20 @@ class Ellipse{
 
 
 class Leg{
+	private:
+		int start_ang;
 	public:
 		Point initialPos;
 		int ang;
 		int side;
 		int arts;
-		int direction;
+		int direction;// direction = 1 for up, -1 for down
 		Leg(Point _initialPos,int _side,int _arts, int _ang, int _direction){
 			initialPos = _initialPos;
 			side = _side;
 			arts = _arts;
 			ang = _ang;
+			start_ang = ang;
 			direction = _direction;
 			//side = 1: Direita
 			//side = -1: Esquerda
@@ -109,19 +112,19 @@ class Leg{
 		  }
 		}
 		void Move(){
-			//@param direction = 1 for up, -1 for down
-			if(this->ang < 45 && this->direction == 1)
-				this->ang += 1;
-			else if(this->ang > -45 && this->direction == -1)
-				this->ang-= 1;		
-			else{
+			//@param i = index of the leg
+
+			if(this->ang < this->start_ang + 15 && this->direction == 1)
+				this->ang += 1; //move up
+			else if(this->ang > this->start_ang - 15 && this->direction == -1)
+				this->ang-= 1;	//move down	
+			else{ //change direction
 				if(this->direction == 1)
 					this->direction = -1;
 				else
 					this->direction = 1;
 			} 
-				
-			std::cout<<"angle ="<<this->ang<<"\n";
+
 		}
 };
 
@@ -149,12 +152,12 @@ class Spider{
 				legs[i] = Leg(Point(initialPos.x-15,initialPos.y-20+(i-4)*10),-1,3,0, 1);
 			}
 			legs[0] = Leg(Point(initialPos.x+15,initialPos.y-20),1,3,-80, 1);
-			legs[1] = Leg(Point(initialPos.x+15,initialPos.y-10),1,3,-20, 1);
+			legs[1] = Leg(Point(initialPos.x+15,initialPos.y-10),1,3,-20, -1);
 			legs[2] = Leg(Point(initialPos.x+15,initialPos.y),1,3,20, 1);
-			legs[3] = Leg(Point(initialPos.x+15,initialPos.y+10),1,3,40, 1);
+			legs[3] = Leg(Point(initialPos.x+15,initialPos.y+10),1,3,40, -1);
 			legs[4] = Leg(Point(initialPos.x-15,initialPos.y-20),-1,3,-80, -1);
 			legs[5] = Leg(Point(initialPos.x-15,initialPos.y-10),-1,3,-20, 1);
-			legs[6] = Leg(Point(initialPos.x-15,initialPos.y),-1,3,20, 1);
+			legs[6] = Leg(Point(initialPos.x-15,initialPos.y),-1,3,20, -1);
 			legs[7] = Leg(Point(initialPos.x-15,initialPos.y+10),-1,3,40, 1);
 		}
 		void Draw(){

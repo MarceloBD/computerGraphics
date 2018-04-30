@@ -143,10 +143,11 @@ int main(int argc, char **argv) {
 	glutMouseFunc(mouseListener);
 	glutDisplayFunc(EmptyCallback);
   glMatrixMode(GL_MODELVIEW);
-  spider->Rotate(45);
-  spider->Move(Point(100,200));
-  spider->Rotate(45);
-  spider->Move(Point(100,400));
+ // spider->Rotate(45);
+ // spider->Move(Point(100,200));
+ // spider->Rotate(45);
+  //spider->Move(Point(100,400));
+  	spider->Draw();
 	glutMainLoop();
 	return 1;
 }

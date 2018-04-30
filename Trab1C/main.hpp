@@ -46,6 +46,8 @@ class Leg{
 		Leg(Point _initialPos,GLint _side,GLint _arts, GLint _ang, GLint _direction);
 		Leg(){}
 		void DrawLine(Point start,Point end);
+		void DrawLinePointX(Point start, GLint i, GLfloat m);
+		void DrawLinePointY(Point start, GLint i, GLfloat m);
 		void Draw();
 		void Move();
 };
@@ -64,4 +66,5 @@ class Spider{
 		void Move(Point dest);
 //O *5 serve apenas para deixar o movimento mais suave (smooth) em angulos pequenos
 		void Rotate(GLfloat _angle);
+		void RotateStep(GLint i);
 };

@@ -157,11 +157,10 @@ void Leg::Draw(){
 
 void Leg::Move(){
   //@param i = index of the leg
-
-  if(this->ang < this->start_ang + 15 && this->direction == 1)
-    this->ang += 1; //move up
+  if     (this->ang < this->start_ang + 15 && this->direction == 1)
+    this->ang += 1;  //move up
   else if(this->ang > this->start_ang - 15 && this->direction == -1)
-    this->ang-= 1;  //move down 
+    this->ang -= 1;  //move down 
   else{ //change direction
     if(this->direction == 1)
       this->direction = -1;
@@ -200,24 +199,24 @@ void Spider::Draw(){
 }
 
 void Spider::Move(Point dest){
-  if(pow(position.x-dest.x,2)==0&&pow(position.y-dest.y,2)==0){
+  if(!pow(position.x - dest.x, 2) && !pow(position.y-dest.y,2)){
     return;
   }
   Point oldPosition = Point(position.x,position.y);
-  if(pow(position.x-dest.x,2)>pow(position.y-dest.y,2)){
-    for(GLint i = 0;i<abs(oldPosition.x-dest.x);i++){
-      if(dest.x-oldPosition.x>0){
+  if(pow(position.x - dest.x, 2) > pow(position.y - dest.y, 2)){
+    for(GLint i = 0; i < abs(oldPosition.x - dest.x); i++){
+      if(dest.x - oldPosition.x > 0){
         this->position.x += 1;
-        this->position.y += (dest.y-oldPosition.y)/abs(dest.x-oldPosition.x);
+        this->position.y += (dest.y - oldPosition.y)/abs(dest.x - oldPosition.x);
       }else{
         this->position.x += -1;
-        this->position.y += (dest.y-oldPosition.y)/abs(dest.x-oldPosition.x);
+        this->position.y += (dest.y - oldPosition.y)/abs(dest.x - oldPosition.x);
       }
       glClear(GL_COLOR_BUFFER_BIT);
       glPushMatrix();
-      glRotatef(this->angle,0.0,0.0,1.0);
-      glTranslatef(this->position.x*cos(this->angle*(M_PI/180))+this->position.y*sin(this->angle*(M_PI/180)),
-            -this->position.x*sin(this->angle*(M_PI/180))+this->position.y*cos(this->angle*(M_PI/180)),
+      glRotatef(this->angle, 0.0, 0.0, 1.0);
+      glTranslatef(this->position.x*cos(this->angle*(M_PI/180)) + this->position.y*sin(this->angle*(M_PI/180)),
+            - this->position.x*sin(this->angle*(M_PI/180)) + this->position.y*cos(this->angle*(M_PI/180)),
              0.0);
       for(GLint j = 0; j < 8; j++){
         this->legs[j].Move();
@@ -227,19 +226,19 @@ void Spider::Move(Point dest){
       usleep(100 /(moveSpeed) * 1000);
     }
   }else{
-    for(GLint i = 0;i<abs(oldPosition.y-dest.y);i++){
-      if(dest.y-oldPosition.y>0){
+    for(GLint i = 0; i < abs(oldPosition.y - dest.y); i++){
+      if(dest.y - oldPosition.y > 0){
         this->position.y += 1;
-        this->position.x += (dest.x-oldPosition.x)/abs(dest.y-oldPosition.y);
+        this->position.x += (dest.x - oldPosition.x)/abs(dest.y - oldPosition.y);
       }else{
         this->position.y += -1;
-        this->position.x += (dest.x-oldPosition.x)/abs(dest.y-oldPosition.y);
+        this->position.x += (dest.x - oldPosition.x)/abs(dest.y - oldPosition.y);
       }
       glClear(GL_COLOR_BUFFER_BIT);
       glPushMatrix();
-      glRotatef(this->angle,0.0,0.0,1.0);
-      glTranslatef(this->position.x*cos(this->angle*(M_PI/180))+this->position.y*sin(this->angle*(M_PI/180)),
-            -this->position.x*sin(this->angle*(M_PI/180))+this->position.y*cos(this->angle*(M_PI/180)),
+      glRotatef(this->angle, 0.0, 0.0, 1.0);
+      glTranslatef(this->position.x*cos(this->angle*(M_PI/180)) + this->position.y*sin(this->angle*(M_PI/180)),
+            - this->position.x*sin(this->angle*(M_PI/180)) + this->position.y*cos(this->angle*(M_PI/180)),
              0.0);
       for(GLint j = 0; j < 8; j++){
         this->legs[j].Move();
@@ -270,8 +269,8 @@ void Spider::RotateStep(GLint i) {
   glPushMatrix();
     glRotatef(0.2*i, 0.0, 0.0, 1.0);
     glTranslatef(this->position.x*cos(0.2*i*(M_PI/180))
-      +this->position.y*sin(0.2*i*(M_PI/180)),-this->position.x*sin(0.2*i*(M_PI/180))
-      +this->position.y*cos(0.2*i*(M_PI/180)), 0.0);
+      + this->position.y*sin(0.2*i*(M_PI/180)), - this->position.x*sin(0.2*i*(M_PI/180))
+      + this->position.y*cos(0.2*i*(M_PI/180)), 0.0);
     this->Draw();
   glPopMatrix();
   usleep(100 / (rotateSpeed) * 1000);

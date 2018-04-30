@@ -58,8 +58,8 @@ class Spider{
 		Ellipse cephalotorax;
 		Ellipse abdomen;
 		Leg legs[8];
-		GLint moveSpeed = 50;
-		GLint rotateSpeed = 100;
+		const GLint moveSpeed = 50;
+		const GLint rotateSpeed = 100;
 		GLfloat angle = 0;
 		Spider(Point initialCoords);
 		void Draw();

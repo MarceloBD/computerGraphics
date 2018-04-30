@@ -57,13 +57,13 @@ void mouseListener(GLint button, GLint action, GLint x, GLint y) {
       if(dest.x>=spider->position.x&&dest.y<=spider->position.y){
         ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
       }
-      if(dest.x<spider->position.x&&dest.y<=spider->position.y){
+      else if(dest.x<spider->position.x&&dest.y<=spider->position.y){
         ang = 90+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
       }
-      if(dest.x<spider->position.x&&dest.y>spider->position.y){
+      else if(dest.x<spider->position.x&&dest.y>spider->position.y){
         ang = -270+acos((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
       }
-      if(dest.x>=spider->position.x&&dest.y>spider->position.y){
+      else if(dest.x>=spider->position.x&&dest.y>spider->position.y){
         ang = asin((spider->position.y-dest.y)/sqrt(pow(dest.x-spider->position.x,2)+pow(dest.y-spider->position.y,2)))*(180/PI);
       }
 
